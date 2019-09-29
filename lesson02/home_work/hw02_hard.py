@@ -5,6 +5,25 @@ equation = 'y = -12x + 11111140.2121'
 x = 2.5
 # вычислите и выведите y
 
+x_position = equation.find('x')
+eq_position = equation.find('=')
+
+# Вычленение коэффициента k
+k_part = equation[eq_position + 1:x_position].replace(' ', '')
+if k_part:
+    k = float(k_part)
+else:
+    k = 1
+
+# Вычленение коэффициента b
+b_part = equation[x_position+1:].replace(' ', '')
+if b_part:
+    b = float(b_part)
+else:
+    b = 0
+# Коэффициенты получены, выводим результат
+print('y = ', k * x + b)
+
 
 # Задание-2: Дата задана в виде строки формата 'dd.mm.yyyy'.
 # Проверить, корректно ли введена дата.
@@ -20,10 +39,35 @@ x = 2.5
 date = '01.11.1985'
 
 # Примеры некорректных дат
-date = '01.22.1001'
-date = '1.12.1001'
-date = '-2.10.3001'
+# date = '01.22.1001'
+# date = '1.12.1001'
+# date = '-2.10.3001'
 
+date_list = date.split('.')
+while True:
+    if len(date_list[0]) != 2 and len(date_list[1]) != 2 and len(date_list[2]) != 4:
+        print('Неверный формат даты. Приведите дату к формату "dd.mm.yyyy"')
+        break
+
+    day = int(date_list[0])
+    month = int(date_list[1])
+    year = int(date_list[2])
+
+    if not 1 <= year <= 9999:
+        print('Год должен быть целым положительным числом в диапазоне от 1 до 9999')
+        break
+
+    if not 1 <= month <= 12:
+        print('Месяц должен быть целым чисом в диапазоне от 1 до 12')
+        break
+
+    dict_month = {1: 31, 2: 29, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
+    if not 1 <= day <= dict_month[month]:
+        print('В месяце', month, 'дата может быть в диапазоне от 0 до', dict_month[month])
+        break
+
+    print(date, '- дата верна')
+    break
 
 # Задание-3: "Перевёрнутая башня" (Задача олимпиадного уровня)
 #
@@ -54,3 +98,27 @@ date = '-2.10.3001'
 #
 # Вход: 11
 # Выход: 5 3
+room_number = int(input('Введите номер комнаты в диапазоне от 0 до 2 000 000 000:\n'))
+block = 1
+max_room_in_block = 1
+max_floor_in_block = 1
+
+# Определяем нужный блок
+while not room_number <= max_room_in_block:
+    block += 1
+    max_room_in_block += block * block
+    max_floor_in_block += block
+
+# определяем нужный этаж и положение квартиры
+min_room_in_block = max_room_in_block - block * block + 1
+min_floor_in_block = max_floor_in_block - block + 1
+
+temp_room = min_room_in_block
+for i in range(1, block + 1):
+    for j in range(1, block + 1):
+        if temp_room == room_number:
+            final_floor = i + min_floor_in_block - 1
+            room_pos = j
+        temp_room += 1
+
+print(final_floor, room_pos)
