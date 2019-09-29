@@ -1,4 +1,5 @@
 import sys
+import random
 game_name = 'Bot Small Talk'
 
 # Структара хранения данных о пользователя с вопросами, которые надо задать
@@ -76,3 +77,40 @@ for itm in rus_letters:
     if itm not in player['name']['answer'].lower():
         print(itm, end=' ')
 
+# Игра на отгадывание места числа
+numbers_list = [1, 16, 2, 15, 3, 14, 4, 13, 5, 7, 8, 12, 11, 9, 10, 6]
+show_list = ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*']
+print('Я задумал 16 чисел от 1 - 16 и расположил их в произвольном порядке в строке. Скажи мне, где какое.')
+string_to_show = '|{show_list[0]}|{show_list[1]}|{show_list[2]}|{show_list[3]}|{show_list[4]}|{show_list[5]}' \
+                 '|{show_list[6]}|{show_list[7]}|{show_list[8]}|{show_list[9]}|{show_list[10]}|{show_list[11]}' \
+                 '|{show_list[12]}|{show_list[13]}|{show_list[14]}|{show_list[15]}|'
+current_attempt = 1
+total_attempts: int = 0
+while True:
+    if show_list == numbers_list:
+        print(string_to_show.format(show_list=show_list))
+        print('Разгаданы все числа. Молодец!\nВсего попыток:', total_attempts)
+        break
+
+    # Загадываем позицию числа
+    while True:
+        guess_number = random.randint(0, 15)
+        if numbers_list[guess_number] == show_list[guess_number]:
+            continue
+        else:
+            current_attempt = 1
+            break
+    # Разгадываем число в загаданой позиции, пока не угадаем.
+    while True:
+        print(string_to_show.format(show_list=show_list))
+        if numbers_list[guess_number] == numbers_list[int(input('Где находится число '
+                                                                + str(numbers_list[guess_number])
+                                                                + ':\n')) - 1]:
+            print('Верно. Угадано с попытки', current_attempt)
+            total_attempts += current_attempt
+            show_list[guess_number] = numbers_list[guess_number]
+            break
+        else:
+            current_attempt += 1
+            print('Неверно. Попробуйте ещё.')
+            continue
