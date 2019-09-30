@@ -86,7 +86,9 @@ string_to_show = '|{show_list[0]}|{show_list[1]}|{show_list[2]}|{show_list[3]}|{
                  '|{show_list[12]}|{show_list[13]}|{show_list[14]}|{show_list[15]}|'
 current_attempt = 1
 total_attempts: int = 0
-while True:
+break_game = False
+
+while not break_game:
     if show_list == numbers_list:
         print(string_to_show.format(show_list=show_list))
         print('Разгаданы все числа. Молодец!\nВсего попыток:', total_attempts)
@@ -101,11 +103,21 @@ while True:
             current_attempt = 1
             break
     # Разгадываем число в загаданой позиции, пока не угадаем.
-    while True:
+    while not break_game:
         print(string_to_show.format(show_list=show_list))
-        if numbers_list[guess_number] == numbers_list[int(input('Где находится число '
-                                                                + str(numbers_list[guess_number])
-                                                                + ':\n')) - 1]:
+
+        user_answer = input('Где находится число '+ str(numbers_list[guess_number]) + ':\n')
+        if user_answer.isdigit() and int(user_answer) <= 16:
+            user_answer = int(user_answer)
+        elif user_answer == 'exit':
+            break_game = True
+            print('Игра прервана')
+            continue
+        else:
+            print('Нужно вводить число от 1 до 16')
+            continue
+
+        if numbers_list[guess_number] == numbers_list[user_answer - 1]:
             print('Верно. Угадано с попытки', current_attempt)
             total_attempts += current_attempt
             show_list[guess_number] = numbers_list[guess_number]
