@@ -12,9 +12,11 @@
 # 4.  арбуз
 
 # Подсказка: воспользоваться методом .format()
-list_fruits = ["яблоко", "банан", "киви", "арбуз"]
-for idx, itm in enumerate(list_fruits):
-    print('{idx:<4}'.format(idx=str(idx + 1) + '.') + '{itm:>12}'.format(itm=itm))
+list_fruits = ["яблоко", "банан", "киви", "арбуз", "очень длинное название фрукта"]
+max_len = len(max(list_fruits, key=len))
+
+for idx, itm in enumerate(list_fruits, start=1):
+    print(f'{idx}. {itm.rjust(max_len)}')
 # Как вместо {itm:>12} вывести len(max(list_fruits))?
 
 # Задача-2:
@@ -23,6 +25,8 @@ for idx, itm in enumerate(list_fruits):
 list_one = ["яблоко", "банан", "киви", "арбуз"]
 list_two = ["яблоко", "арбуз"]
 print(list(set(list_one).difference(set(list_two))))
+
+# неверное решение, так как надо было работать прямо с первым списком и удалять из него элементы циклом через .pop(idx).
 
 # Задача-3:
 # Дан произвольный список из целых чисел.
