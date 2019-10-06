@@ -5,7 +5,13 @@
 # Для решения задачи не используйте встроенные функции и функции из модуля math.
 
 def my_round(number, ndigits):
-    pass
+    """
+    Функция производит математическое округление числа
+    :param number: число, которое надо округлить
+    :param ndigits: число знаков после запятой
+    :return: округленное число
+    """
+    return ((number * (10 ** (ndigits + 1)) + 5) // 10) / (10 ** ndigits)
 
 
 print(my_round(2.1234567, 5))
@@ -20,9 +26,21 @@ print(my_round(2.9999967, 5))
 # !!!P.S.: функция не должна НИЧЕГО print'ить
 
 def lucky_ticket(ticket_number):
-    pass
+    """
+    Функция опередяет счастливый билет
+    :param ticket_number: шестизначный нмоер билета
+    :return: True, если билет счастливый, False, если не счастливый, not 6-gigit number, елси введено не 6-значное число
+    """
+    if len(str(ticket_number)) != 6:
+        return 'not 6-gigit number'
+
+    if sum(map(int, str(ticket_number // 1000))) == sum(map(int, str(ticket_number % 1000))):
+        return True
+    else:
+        return False
 
 
 print(lucky_ticket(123006))
 print(lucky_ticket(12321))
 print(lucky_ticket(436751))
+print(lucky_ticket(436752))
