@@ -1,4 +1,5 @@
 import sys
+import os
 # Задание-1:
 # Написать программу, выполняющую операции (сложение и вычитание) с простыми дробями.
 # Дроби вводятся и выводятся в формате:
@@ -11,7 +12,7 @@ import sys
 # Вывод: -1 1/3
 
 
-def trasform_fraction(str_fraction):
+def transform_fraction(str_fraction):
     """
     Функция переводит строку с дробью 1 1/3 в список с целой частью, числителем и знаменателем простой дроби
     :param str_fraction: Входнач строка формата "целая_чать числитель/знаменатель"
@@ -149,8 +150,8 @@ else:
     print('Ошибка в выражении, вводите только сложение или вычитание дробей')
     sys.exit()
 
-fraction_list[0] = trasform_fraction(fraction_list[0])
-fraction_list[1] = trasform_fraction(fraction_list[1])
+fraction_list[0] = transform_fraction(fraction_list[0])
+fraction_list[1] = transform_fraction(fraction_list[1])
 
 if not isinstance(fraction_list[0], list) or not isinstance(fraction_list[1], list):
     # если внутри у нас строки, значит вернулись ошибки при разборе дробей
@@ -168,6 +169,47 @@ print(sum_fractions(fraction_list))
 # то их ЗП уменьшается пропорционально, а за заждый час переработки
 # они получают удвоенную ЗП, пропорциональную норме.
 # Кол-во часов, которые были отработаны, указаны в файле "data/hours_of"
+
+DIR = 'data'
+workers_file = 'workers'
+hours_file = 'hours_of'
+workers_data = []
+
+# читаем первый файл
+with open(os.path.join(DIR, workers_file), 'r', encoding='UTF-8') as f:
+    read_first_line = False
+
+    for line in f:
+        if not read_first_line:
+            read_first_line = True
+            continue
+        current_data = line.strip().split()
+        workers_data.append({'Name': current_data[0], 'Surname': current_data[1], 'Salary Norm': float(current_data[2]),
+                             'Position': current_data[3], 'Hours Norm': int(current_data[4])})
+
+# Добиваем каждый словарь в списке данными по фактической выработке
+with open(os.path.join(DIR, hours_file), 'r', encoding='UTF-8') as f:
+    read_first_line = False
+
+    for line in f:
+        if not read_first_line:
+            read_first_line = True
+            continue
+        current_data = line.strip().split()
+
+        for curr_worker in workers_data:
+            if curr_worker['Name'] == current_data[0] and curr_worker['Surname'] == current_data[1]:
+                curr_worker['Hours Fact'] = int(current_data[2])
+                pay_per_hour = curr_worker['Salary Norm']/curr_worker['Hours Norm']
+                if curr_worker['Hours Norm'] >= curr_worker['Hours Fact']:
+                    curr_worker['Salary Fact'] = round(curr_worker['Hours Fact'] * pay_per_hour, 2)
+                else:
+                    hours_diff = curr_worker['Hours Fact'] - curr_worker['Hours Norm']
+                    curr_worker['Salary Fact'] = round(curr_worker['Salary Norm'] + hours_diff * pay_per_hour * 2, 2)
+
+
+
+print(workers_data)
 
 
 # Задание-3:
