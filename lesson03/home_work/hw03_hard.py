@@ -207,8 +207,6 @@ with open(os.path.join(DIR, hours_file), 'r', encoding='UTF-8') as f:
                     hours_diff = curr_worker['Hours Fact'] - curr_worker['Hours Norm']
                     curr_worker['Salary Fact'] = round(curr_worker['Salary Norm'] + hours_diff * pay_per_hour * 2, 2)
 
-
-
 print(workers_data)
 
 
@@ -224,3 +222,25 @@ print(workers_data)
 # Подсказка:
 # Чтобы получить список больших букв русского алфавита:
 # print(list(map(chr, range(ord('А'), ord('Я')+1))))
+
+letter_list = list(map(chr, range(ord('А'), ord('Я')+1)))
+fruit_dict = {letter_list[i]: [] for i in range(len(letter_list))}
+
+DIR = 'data'
+fruit_file = 'fruits.txt'
+with open(os.path.join(DIR, fruit_file), 'r', encoding='UTF-8') as f:
+    for line in f:
+        if len(line.strip()) != 0:
+            fruit_dict[line.strip()[:1].upper()].append(line.strip())
+
+DIR = 'data/fruits'
+if not os.path.isdir(DIR):
+    os.makedirs(DIR)
+
+for key, itm in fruit_dict.items():
+    if len(itm) != 0:
+        fruit_file = 'fruits_' + key + '.txt'
+
+        with open(os.path.join(DIR, fruit_file), 'w', encoding='UTF-8') as f:
+            for list_itm in itm:
+                f.write(str(list_itm + '\n'))
