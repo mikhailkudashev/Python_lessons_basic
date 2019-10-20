@@ -36,10 +36,7 @@ def lucky_ticket(ticket_number):
     if len(str(ticket_number)) != 6:
         return 'not 6-gigit number'
 
-    if sum(map(int, str(ticket_number // 1000))) == sum(map(int, str(ticket_number % 1000))):
-        return True
-    else:
-        return False
+    return sum(map(int, str(ticket_number // 1000))) == sum(map(int, str(ticket_number % 1000)))
 
 
 print(lucky_ticket(123006))
