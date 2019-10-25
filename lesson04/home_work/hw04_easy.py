@@ -1,3 +1,4 @@
+import random
 # Все задачи текущего блока решите с помощью генераторов списков!
 
 # Задание-1:
@@ -5,10 +6,18 @@
 # Получить новый список, элементы которого будут
 # квадратами элементов исходного списка
 # [1, 2, 4, 0] --> [1, 4, 16, 0]
+source_list = [1, 2, 4, 0]
+target_list = [el ** 2 for el in source_list]
+print(target_list)
+
 
 # Задание-2:
 # Даны два списка фруктов.
 # Получить список фруктов, присутствующих в обоих исходных списках.
+fruit_list1 = ['яблоки', 'груши', 'бананы', 'виноград', 'манго', 'киви']
+fruit_list2 = ['бананы', 'виноград', 'папайя']
+fruit_list3 = [el for el in fruit_list1 if el in fruit_list2]
+print(fruit_list3)
 
 # Задание-3:
 # Дан список, заполненный произвольными числами.
@@ -16,3 +25,7 @@
 # + Элемент кратен 3
 # + Элемент положительный
 # + Элемент не кратен 4
+numbers_list = [random.randint(-12, 24) for i in range(0, 30)]
+print(numbers_list)
+new_numbers_list = [el for el in numbers_list if el % 3 == 0 and el > 0 and el % 4 != 0]
+print(new_numbers_list)
