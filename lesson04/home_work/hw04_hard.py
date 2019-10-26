@@ -1,3 +1,5 @@
+from functools import reduce
+import re
 # Задание-1:
 # Матрицы в питоне реализуются в виде вложенных списков:
 # Пример. Дано:
@@ -10,6 +12,9 @@ matrix = [[1, 0, 8],
 # matrix_rotate = [[1, 3, 0],
 #                  [0, 4, 4],
 #                  [8, 1, 2]]
+
+matrix_rotate = [list(itm) for itm in zip(*matrix)]
+print(matrix_rotate)
 
 # Суть сложности hard: Решите задачу в одну строку
 
@@ -39,6 +44,18 @@ number = """
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450"""
 
+index = 0
+max_mult_number = 0
+number = re.sub(r'\n', '', number)
+for i in range(len(number) - 5):
+    check_number = number[i:i+5]
+    if check_number.isdigit():
+        mult_number = reduce(lambda x, y: int(x) * int(y), list(check_number))
+        if mult_number > max_mult_number:
+            index = i
+            max_mult_number = mult_number
+
+print(index+1, max_mult_number)
 
 # Задание-3 (Ферзи):
 # Известно, что на доске 8×8 можно расставить 8 ферзей так, чтобы они не били
@@ -47,3 +64,21 @@ number = """
 # Программа получает на вход восемь пар чисел,
 # каждое число от 1 до 8 — координаты 8 ферзей.
 # Если ферзи не бьют друг друга, выведите слово NO, иначе выведите YES.
+queens = [[2, 1],
+          [4, 2],
+          [6, 3],
+          [8, 4],
+          [3, 5],
+          [1, 6],
+          [7, 7],
+          [5, 8]]
+skewer = False
+for i in range(8):
+    for j in range(i + 1, 8):
+        if queens[i][0] == queens[j][0] or queens[i][1] == queens[j][1] or \
+                abs(queens[i][0] - queens[j][0]) == abs(queens[j][1] - queens[j][1]):
+            skewer = True
+if skewer:
+    print('YES')
+else:
+    print('NO')
